@@ -1,4 +1,4 @@
-# load symbol from svg file for use inline - for webpack
+# load all symbols from svg file for use inline - for webpack
 
 ## Installation
 
@@ -7,8 +7,9 @@
 ## Usage
 
 ``` javascript
-var fileContent = require("svg-symbol2inline!./file.svg?symbolid");
-// => returns symbol content from the file wrapped in a g element
+var icons = require("svg-symbol2inline!./file.svg");
+var rawText = icons('iconbyid');
+// => returns symbol content wrapped in svg->g
 ```
 
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
