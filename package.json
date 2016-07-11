@@ -1,0 +1,28 @@
+{
+	"name": "svg-symbol2inline-loader",
+	"version": "0.1.0",
+	"author": "Jim Rowe @jimrowe",
+	"description": "Webpack loader to take svg symbols from file into inline g element",
+	// "repository": {
+	// 	"type": "git",
+	// 	"url": "git@github.com:wooki/svg-symbol2inline-loader.git"
+	// },
+	"main": "index.js",
+	"dependencies": {
+		"loader-utils": "0.2.x",
+		"xmldom": "0.1.22",
+		"xpath": "0.0.23"
+	},
+	"keywords": [
+		"webpack",
+		"loader",
+		"symbol",
+		"svg"
+	],
+ 	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://www.opensource.org/licenses/mit-license.php"
+		}
+	]
+}
