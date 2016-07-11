@@ -8,30 +8,25 @@ module.exports = function(content) {
 
 	var content = content.toString('utf8');
 
-	// create a target element to add content to
-	var targetDoc = new xmldom.DOMParser().parseFromString('<g></g>', 'text/xml');
-	// var targetEl = targetDoc.documentElement;
+	var markup = "";
+	markup = "icons['test'] = 'test123'; ";
 
 	// parse content of doc
 	var svgDoc = new xmldom.DOMParser().parseFromString(content, "text/xml");
 	var svgEl = svgDoc.documentElement;
 
-	// find the symbol in the svg doc
-	var nodesWithId = xpath.select('/*/*[@id]', targetDoc);
-	if (nodesWithId.length > 0) {
-		svgSymbol = nodesWithId[0];
-	} else {
-		// throw error
+	// find all the symbols in the svg doc
+	var select = xpath.useNamespaces({"svg": "http://www.w3.org/2000/svg"});
+	var nodes = select('//svg:symbol', svgDoc);
+	for (var i = 0; i < nodes.length; i++) {
+		var node = nodes[i];
+		var nodeContent = new xmldom.XMLSerializer().serializeToString(node.childNodes);
+		nodeContent = '<svg viewBox="'+node.getAttribute('viewBox')+'" xmlns="http://www.w3.org/2000/svg"><g>' + nodeContent.trim() + '</g></svg>';
+		markup = markup + "icons['"+node.getAttribute('id')+"'] = '"+nodeContent+"'; ";
 	}
 
-	// Transfer supported attributes from symbol element to the target element.
-	var attributes = ['viewBox', 'height', 'width', 'preserveAspectRatio'];
-	attributes.forEach(function(attr) {
-		if (svgEl.hasAttribute(attr)) {
-			targetEl.setAttribute(attr, svgSymbol.getAttribute(attr));
-		}
-	});
+	var functionStart = "module.exports = function(iconId) { var icons = []; ";
+	var functionEnd = "return icons[iconId]; }";
 
-	var markup = new xmldom.XMLSerializer().serializeToString(targetDoc);
-	return "module.exports = " + JSON.stringify(content);
+	return functionStart + markup + functionEnd;
 }
