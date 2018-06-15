@@ -22,6 +22,8 @@ module.exports = function(content) {
 		var node = nodes[i];
 		var nodeContent = new xmldom.XMLSerializer().serializeToString(node.childNodes);
 		nodeContent = '<svg viewBox="'+node.getAttribute('viewBox')+'" xmlns="http://www.w3.org/2000/svg"><g>' + nodeContent.trim() + '</g></svg>';
+
+      // this fails when there is whitespace between elements, need a fix!
 		markup = markup + "icons['"+node.getAttribute('id')+"'] = '"+nodeContent+"'; ";
 	}
 
